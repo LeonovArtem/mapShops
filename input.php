@@ -1,36 +1,14 @@
 <?php
-class User
+/*
+Ключевое слово self в PHP всегда значит «имя класса, где это слово написано».
+ В данном случае self заменяется на класс Model, а self::$table — на Model::$table.
+Такая языковая возможность называется «ранним статическим связыванием».
+*/
+class Model
 {
-    static $alluser=[];
-
-    public $name;
-    public $age;
-    public $password;
-    public function __construct($name,$age,$password)
-    {
-        $this->name=$name;
-        $this->age=$age;
-        $this->password=$password;
-        self::$alluser[]=$this;
-
+    public static $table='table';
+    public static function getTable(){
+        return self::$table;
     }
-    public function getInfo(){
-        echo '<pre>';
-        print_r(static::$alluser);
-        echo '</pre>';
-    }
-
 }
-$user_1=new User('Artem',28,'mypa$$');
-$user_2=new User('Leonov',31,'newpass');
-$user_3=new User('Leonov',31,'newpass');
-echo json_encode(User::$alluser);
-
-$var = '';
-// Проверка вернет TRUE, поэтому текст будет напечатан.
-if (isset($var)) {
-    echo "Эта переменная определена, поэтому меня и напечатали.";
-    die('<p>Остановка..</p>');
-}
-
-echo '<p>Продолжаем...<p>';
+echo Model::getTable();
