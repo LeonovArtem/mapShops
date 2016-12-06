@@ -1,32 +1,29 @@
 <?php
-/*  https://habrahabr.ru/post/259627/
-Ключевое слово self в PHP всегда значит «имя класса, где это слово написано».
- В данном случае self заменяется на класс Model, а self::$table — на Model::$table.
-Такая языковая возможность называется «ранним статическим связыванием».
-
-Теперь вы понимаете, почему PHP ведёт себя в этой ситуации неинтуитивно.
-self был связан с классом Model тогда, когда о классе User еще ничего не было известно, поэтому и указывает на Model.
+/*  Генератор - это обычная функция. Для возврата значений используется ключевое слово yield
 */
-class Model
-{
-    public static $table='table';
-    public static function getTable(){
-        echo '<p>Текущий класс: '.get_called_class().'</p>';
-        return self::$table;                                    //Заменили self на static
-
+//function mrange($size){
+//    $mas=[];
+//    for($i=0;$i<$size;$i++){
+//        $mas[]=$i;
+//    }
+//    return $mas;
+//}
+//
+//$arr=mrange(1000000);
+//foreach($arr as $v){
+//    echo $v.'; ';
+//}
+//echo '<h3>'.(memory_get_usage()/1024/1024).'</h3>';           //34 мб
+$mrange=function($size){
+    $mas=[];
+    for($i=0;$i<$size;$i++){
+        yield $mas[]=$i;
     }
-}
-class User extends Model
-{
-    public static $table='users';
-}
-echo Model::getTable();     //table
-echo '<br>';
-echo User::getTable();      //table
-/*
-     LSB (Late Static Binding).
-Для решения этой дилеммы был придуман механизм связывания «позднего», на этапе рантайма.
-Работает он очень просто — достаточно вместо слова «self» написать «static» и связь будет установлена с тем классом,
-который вызывает данный код, а не с тем, где он написан:
-*/
 
+};
+
+$arr=$mrange(1000000);
+foreach($arr as $v){
+    echo $v.'; ';
+}
+echo '<h3>'.(memory_get_usage()/1024/1024).'</h3>';         //327 кбайт
