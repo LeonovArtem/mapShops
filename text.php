@@ -1,6 +1,2 @@
-
-
-
-
-
-<h2>"Это ветка bugFix"</h2>
+<?php
+    echo 'Bug Fix';
